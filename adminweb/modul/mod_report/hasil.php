@@ -218,7 +218,7 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
-			<div class="panel-title">Grafik Kuisioner Keseluruhan</div>
+			<div class="panel-title">Grafik Kuisioner Kepentingan</div>
 		</div>
 	</div>
 
@@ -244,9 +244,8 @@
   									SUM(jawabanD) As TotalD,
   									SUM(jawabanE) As TotalE,
   									SUM(jawabanA+jawabanB+jawabanC+jawabanD+jawabanE) As jumlahtotal
-  				 					FROM tanswer ");
+  				 					FROM tanswer where categoryId = 1");
 
-  			$des = mysqli_num_rows(mysqli_query($db,$koneksi,"SELECT * FROM tquestion"));
   			$noo=1;
   			$oke = mysqli_fetch_array($sql);
   				$a = $oke[TotalA];
@@ -283,7 +282,79 @@
   			?>
 		</table>
     <script type="text/javascript">
-    var chartmyHTMLTable = new FusionCharts({
+    
+
+    </script>
+		</div>
+	</div>
+
+  <div class="panel panel-primary">
+		<div class="panel-heading">
+			<div class="panel-title">Grafik Kuisioner Kepuasan</div>
+		</div>
+	</div>
+
+		<div class="panel-body">
+
+			<div id="chartmyHTMLTable1">
+
+			</div>
+
+			<table id="myHTMLTable" border="0" cellpadding="5" class="table table-striped">
+				<tr>
+				<th width="15%"><font size=2 face=tahoma>Data</font></th>
+				<th width="18%"><font size=2 face=tahoma>Sangat Puas</font></th>
+				<th width="18%"><font size=2 face=tahoma>Puas</font></th>
+				<th width="18%"><font size=2 face=tahoma>Cukup Puas</font></th>
+				<th width="18%"><font size=2 face=tahoma>Kurang Puas</font></th>
+				<th><font size=2 face=tahoma>Tidak Puas</font></th>
+				</tr>
+        <?php
+  			$sql1 = mysqli_query($db,"SELECT SUM(jawabanA) As TotalA,
+  									SUM(jawabanB) As TotalB,
+  									SUM(jawabanC) As TotalC,
+  									SUM(jawabanD) As TotalD,
+  									SUM(jawabanE) As TotalE,
+  									SUM(jawabanA+jawabanB+jawabanC+jawabanD+jawabanE) As jumlahtotal
+  				 					FROM tanswer where categoryId = 2");
+
+  			$noo1=1;
+  			$oke1 = mysqli_fetch_array($sql1);
+  				$a1 = $oke1[TotalA];
+  				$b1 = $oke1[TotalB];
+  				$c1 = $oke1[TotalC];
+  				$d1 = $oke1[TotalD];
+  				$e1 = $oke1[TotalE];
+  				$tot1 = $a1+$b1+$c1+$d1+$e1;
+
+  				$pa1 = ROUND(($a1 / $tot1) * 100);
+  				$pb1 = ROUND(($b1 / $tot1) * 100);
+  				$pc1 = ROUND(($c1 / $tot1) * 100);
+  				$pd1 = ROUND(($d1 / $tot1) * 100);
+  				$pe1 = ROUND(($e1 / $tot1) * 100);
+  					echo "<tr>
+  						<td><font size=3 face=tahoma>Jumlah Jawaban</font></td>
+  						<td><font size=2 face=tahoma>$a1</font></td>
+  						<td><font size=2 face=tahoma>$b1</font></td>
+  						<td><font size=2 face=tahoma>$c1</font></td>
+  						<td><font size=2 face=tahoma>$d1</font></td>
+  						<td><font size=2 face=tahoma>$e1</font></td>
+
+
+  					  </tr>
+  					  <tr >
+  						<td><font size=3 face=tahoma>Prosentase</font></td>
+  						<td><font size=2 face=tahoma>$pa1%</font></td>
+  						<td><font size=2 face=tahoma>$pb1%</font></td>
+  						<td><font size=2 face=tahoma>$pc1%</font></td>
+  						<td><font size=2 face=tahoma>$pd1%</font></td>
+  						<td><font size=2 face=tahoma>$pe1%</font></td>
+  					  </tr>
+  					  ";
+  			?>
+		</table>
+    <script type="text/javascript">
+      var chartmyHTMLTable = new FusionCharts({
       swfPath: "fusion/Charts/",
       renderAt: "chartmyHTMLTable",
       type: "column3d",
@@ -308,6 +379,32 @@
     });
 
     chartmyHTMLTable.render();
+
+    var chartmyHTMLTable1 = new FusionCharts({
+      swfPath: "fusion/Charts/",
+      renderAt: "chartmyHTMLTable1",
+      type: "column3d",
+      dataSource: {
+          // chart configuration
+          chart: {
+              caption: "Grafik Kuisioner Keseluruhan",
+              subcaption: ""
+          },
+          // chart data
+          data: [
+              { label: "Sangat Puas", value: "<?php echo "$a1" ?>" },
+              { label: "Puas", value: "<?php echo "$b1" ?>" },
+              { label: "Cukup Puas", value: "<?php echo "$c1" ?>" },
+              { label: "Kurang Puas", value: "<?php echo "$d1" ?>" },
+              { label: "Tidak Puas", value: "<?php echo "$e1" ?>" },
+          ]
+      },
+      dataFormat: "json",
+      width:"1000",
+      height:"500",
+    });
+
+    chartmyHTMLTable1.render();
 
     </script>
 		</div>
