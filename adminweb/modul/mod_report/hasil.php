@@ -282,7 +282,7 @@
   			?>
 		</table>
     <script type="text/javascript">
-    
+
 
     </script>
 		</div>
@@ -290,7 +290,7 @@
 
   <div class="panel panel-primary">
 		<div class="panel-heading">
-			<div class="panel-title">Grafik Kuisioner Kepuasan</div>
+			<div class="panel-title">Grafik Kuisioner Kinerja</div>
 		</div>
 	</div>
 
@@ -661,7 +661,89 @@
 		<div class="panel-body">
 			<table id="tablekonten" class="table table-striped table-bordered">
 
+			<?php
+				$dy=array();
+				$sql = mysqli_query($db,"SELECT * FROM tresponden order by respondenId");
+
+				while ($data = mysqli_fetch_array($sql)){
+					$sql1 = mysqli_query($db,"SELECT sum(jawaban) as jawabanjumlah FROM tanswer where respondenId='".$data['respondenId']."' AND categoryId=2");
+
+					while ($data1 = mysqli_fetch_array($sql1)){
+						array_push($dy,$data1['jawabanjumlah']);
+					}
+				}
+
+				$sql = mysqli_query($db,"SELECT * FROM tquestion");
+				echo "<tr><td></td>";
+				$pearson=array();
+				$ind=1;
+				while ($data = mysqli_fetch_array($sql)){
+					$sql1 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=2 order by respondenId");
+					$dx=array();
+					echo "<td style='font-size:8px'>".$ind."</td>";
+					while ($data1 = mysqli_fetch_array($sql1)){
+						array_push($dx,$data1['jawaban']);
+					}
+					// print_r($dy);
+					// echo "<br>";
+					// print_r($dx);
+					// echo "<br>";
+
+					$nilai = pearson($dx,$dy);
+					// echo $nilai;
+					// echo "<br>";
+					// echo "<br>";
+					array_push($pearson,$nilai);
+					$ind++;
+				}
+				echo "</tr>";
+				echo "<tr><td style='font-size:8px'>Korelasi</td>";
+				$thitung = array();
+				for($x=0;$x<count($pearson);$x++){
+					//$pearson[$x] = round($pearson[$x], 4);
+					echo "<td style='font-size:8px'>".number_format($pearson[$x],3,',','')."</td>";
+					$nilai = (count($dx)-2)**0.5*$pearson[$x];
+					$nilai1 = (1-$pearson[$x]**2)**0.5;
+					// echo $nilai;
+					// echo "<br>";
+					// echo $nilai1;
+					// echo "<br>";
+					// echo "<br>";
+					array_push($thitung,$nilai/$nilai1);
+				}
+				echo "</tr>";
+
+				echo "<tr><td style='font-size:8px'>T-Hitung</td>";
+				for($x=0;$x<count($thitung);$x++){
+					echo "<td style='font-size:8px'>".number_format($thitung[$x],3,',','')."</td>";
+
+				}
+				echo "</tr>";
+				echo "<tr><td style='font-size:8px'>T-Table</td>";
+				for($x=0;$x<count($thitung);$x++){
+					echo "<td style='font-size:8px'>1,6472</td>";
+
+				}
+				echo "</tr>";
+				echo "<tr><td style='font-size:8px'>Ket</td>";
+				for($x=0;$x<count($pearson);$x++){
+					$ket = "TV";
+					if($pearson[$x]<1.6472){
+						$ket="V";
+					}
+					echo "<td style='font-size:8px'>".$ket."</td>";
+				}
+				echo "</tr>";
+
+
+
+			?>
+
+
 			</table>
+			<p>Keterangan</p>
+			<p>V = Valid</p>
+			<p>TV = Tidak Valid</p>
 		</div>
 	</div>
  <?php
@@ -676,7 +758,89 @@
 		<div class="panel-body">
 			<table id="tablekonten" class="table table-striped table-bordered">
 
+			<?php
+				$dy=array();
+				$sql = mysqli_query($db,"SELECT * FROM tresponden order by respondenId");
+
+				while ($data = mysqli_fetch_array($sql)){
+					$sql1 = mysqli_query($db,"SELECT sum(jawaban) as jawabanjumlah FROM tanswer where respondenId='".$data['respondenId']."' AND categoryId=1");
+
+					while ($data1 = mysqli_fetch_array($sql1)){
+						array_push($dy,$data1['jawabanjumlah']);
+					}
+				}
+
+				$sql = mysqli_query($db,"SELECT * FROM tquestion");
+				echo "<tr><td></td>";
+				$pearson=array();
+				$ind=1;
+				while ($data = mysqli_fetch_array($sql)){
+					$sql1 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=1 order by respondenId");
+					$dx=array();
+					echo "<td style='font-size:8px'>".$ind."</td>";
+					while ($data1 = mysqli_fetch_array($sql1)){
+						array_push($dx,$data1['jawaban']);
+					}
+					// print_r($dy);
+					// echo "<br>";
+					// print_r($dx);
+					// echo "<br>";
+
+					$nilai = pearson($dx,$dy);
+					// echo $nilai;
+					// echo "<br>";
+					// echo "<br>";
+					array_push($pearson,$nilai);
+					$ind++;
+				}
+				echo "</tr>";
+				echo "<tr><td style='font-size:8px'>Korelasi</td>";
+				$thitung = array();
+				for($x=0;$x<count($pearson);$x++){
+					//$pearson[$x] = round($pearson[$x], 4);
+					echo "<td style='font-size:8px'>".number_format($pearson[$x],3,',','')."</td>";
+					$nilai = (count($dx)-2)**0.5*$pearson[$x];
+					$nilai1 = (1-$pearson[$x]**2)**0.5;
+					// echo $nilai;
+					// echo "<br>";
+					// echo $nilai1;
+					// echo "<br>";
+					// echo "<br>";
+					array_push($thitung,$nilai/$nilai1);
+				}
+				echo "</tr>";
+
+				echo "<tr><td style='font-size:8px'>T-Hitung</td>";
+				for($x=0;$x<count($thitung);$x++){
+					echo "<td style='font-size:8px'>".number_format($thitung[$x],3,',','')."</td>";
+
+				}
+				echo "</tr>";
+				echo "<tr><td style='font-size:8px'>T-Table</td>";
+				for($x=0;$x<count($thitung);$x++){
+					echo "<td style='font-size:8px'>1,6472</td>";
+
+				}
+				echo "</tr>";
+				echo "<tr><td style='font-size:8px'>Ket</td>";
+				for($x=0;$x<count($pearson);$x++){
+					$ket = "TV";
+					if($pearson[$x]<1.6472){
+						$ket="V";
+					}
+					echo "<td style='font-size:8px'>".$ket."</td>";
+				}
+				echo "</tr>";
+
+
+
+			?>
+
+
 			</table>
+			<p>Keterangan</p>
+			<p>V = Valid</p>
+			<p>TV = Tidak Valid</p>
 		</div>
 	</div>
  <?php
@@ -691,7 +855,63 @@
 		<div class="panel-body">
 			<table id="tablekonten" class="table table-striped table-bordered">
 
+			<?php
+				$dy=array();
+				$sql = mysqli_query($db,"SELECT * FROM tresponden");
+				while ($data = mysqli_fetch_array($sql)){
+					$sql1 = mysqli_query($db,"SELECT sum(jawaban) as jawabanjumlah FROM tanswer where respondenId='".$data['respondenId']."' AND categoryId=2");
+
+					while ($data1 = mysqli_fetch_array($sql1)){
+						array_push($dy,$data1['jawabanjumlah']);
+					}
+				}
+
+				$sql = mysqli_query($db,"SELECT * FROM tquestion");
+				echo "<tr><td></td>";
+				$varx=array();
+				$ind=1;
+				while ($data = mysqli_fetch_array($sql)){
+					$sql1 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=2");
+					$dx=array();
+					echo "<td style='font-size:8px'>".$ind."</td>";
+					while ($data1 = mysqli_fetch_array($sql1)){
+						array_push($dx,$data1['jawaban']);
+					}
+					$nilai = variance($dx);
+
+					array_push($varx,$nilai);
+					$ind++;
+				}
+				echo "</tr>";
+				echo "<tr><td style='font-size:8px'>Varian</td>";
+
+				for($x=0;$x<count($varx);$x++){
+					echo "<td style='font-size:8px'>".number_format($varx[$x],3,',','')."</td>";
+
+				}
+				echo "</tr>";
+
+				$vary = variance($dy);
+
+				$reab = (count($dx)/(count($dx)-1)) * (1-(array_sum($varx)/$vary));
+				echo "<tr style='font-size:8px'><td>Ket</td>";
+				for($x=0;$x<count($varx);$x++){
+					$ket = "NR";
+					if($varx[$x]>0.60){
+						$ket="R";
+					}
+					echo "<td style='font-size:8px'>".$ket."</td>";
+
+				}
+				echo "</tr>";
+
+			?><p>Reabilitas : <?php echo $reab?></p>
+			<p>Jumlah Varian Item : <?php echo array_sum($varx)?></p>
+			<p>Total skor Varian : <?php echo $vary?></p>
 			</table>
+			<p>Keterangan</p>
+			<p>R = Realibel</p>
+			<p>NR = Tidak Realibel</p>
 		</div>
 	</div>
  <?php
@@ -706,7 +926,63 @@
 		<div class="panel-body">
 			<table id="tablekonten" class="table table-striped table-bordered">
 
+			<?php
+				$dy=array();
+				$sql = mysqli_query($db,"SELECT * FROM tresponden");
+				while ($data = mysqli_fetch_array($sql)){
+					$sql1 = mysqli_query($db,"SELECT sum(jawaban) as jawabanjumlah FROM tanswer where respondenId='".$data['respondenId']."' AND categoryId=1");
+
+					while ($data1 = mysqli_fetch_array($sql1)){
+						array_push($dy,$data1['jawabanjumlah']);
+					}
+				}
+
+				$sql = mysqli_query($db,"SELECT * FROM tquestion");
+				echo "<tr><td></td>";
+				$varx=array();
+				$ind=1;
+				while ($data = mysqli_fetch_array($sql)){
+					$sql1 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=1");
+					$dx=array();
+					echo "<td style='font-size:8px'>".$ind."</td>";
+					while ($data1 = mysqli_fetch_array($sql1)){
+						array_push($dx,$data1['jawaban']);
+					}
+					$nilai = variance($dx);
+
+					array_push($varx,$nilai);
+					$ind++;
+				}
+				echo "</tr>";
+				echo "<tr><td style='font-size:8px'>Varian</td>";
+
+				for($x=0;$x<count($varx);$x++){
+					echo "<td style='font-size:8px'>".number_format($varx[$x],3,',','')."</td>";
+
+				}
+				echo "</tr>";
+
+				$vary = variance($dy);
+
+				$reab = (count($dx)/(count($dx)-1)) * (1-(array_sum($varx)/$vary));
+				echo "<tr style='font-size:8px'><td>Ket</td>";
+				for($x=0;$x<count($varx);$x++){
+					$ket = "NR";
+					if($varx[$x]>0.60){
+						$ket="R";
+					}
+					echo "<td style='font-size:8px'>".$ket."</td>";
+
+				}
+				echo "</tr>";
+
+			?><p>Reabilitas : <?php echo $reab?></p>
+			<p>Jumlah Varian Item : <?php echo array_sum($varx)?></p>
+			<p>Total skor Varian : <?php echo $vary?></p>
 			</table>
+			<p>Keterangan</p>
+			<p>R = Realibel</p>
+			<p>NR = Tidak Realibel</p>
 		</div>
 	</div>
  <?php
