@@ -3,7 +3,7 @@
 $server = "localhost";
 $user = "root";
 $password = "";
-$nama_database = "survey2";
+$nama_database = "survey3";
 
 $db = mysqli_connect($server, $user, $password, $nama_database);
 
