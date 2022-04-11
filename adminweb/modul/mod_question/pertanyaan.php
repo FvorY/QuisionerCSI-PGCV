@@ -61,7 +61,7 @@ switch($_GET[act]){
 								<td><div id="kontentd"><?php echo $data['categoryId'];?></div></td>
 								<td><div id="kontentd"><?php echo $data['variabelName'];?></div></td>
 								<td><div id="kontentd"><?php echo $data['question'];?></div></td>
-								<td><?php if($_SESSION['level']=="Super"){?><div id="kontentd"><a href="?module=question&act=editquestion&id=<?php echo $data['questionId'];?>"><button class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-wrench"></span> Edit</button></a> | <a href="<?php echo $aksi;?>?module=question&act=hapus&id=<?php echo $data['variabelId'];?>"><button class="btn btn-danger btn-sm" onclick="return confirm('Hapus Pertanyaan?')" ><span class="glyphicon glyphicon-trash"></span> Hapus</button></a></div><?php } ?>
+								<td><?php if($_SESSION['level']=="Super"){?><div id="kontentd"><a href="?module=question&act=editquestion&id=<?php echo $data['questionId'];?>"><button class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-wrench"></span> Edit</button></a> | <a href="<?php echo $aksi;?>?module=question&act=hapus&id=<?php echo $data['questionId'];?>"><button class="btn btn-danger btn-sm" onclick="return confirm('Hapus Pertanyaan?')" ><span class="glyphicon glyphicon-trash"></span> Hapus</button></a></div><?php } ?>
 								</td>
 							</tr>
 

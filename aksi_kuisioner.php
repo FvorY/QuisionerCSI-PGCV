@@ -71,7 +71,8 @@ else{
 			}
 			elseif($asfa == '3'){
 				mysqli_query($db,"INSERT INTO tanswer (descriptionId,categoryId,variabelId,respondenId,jawaban,jawabanA,jawabanB,jawabanC,jawabanD,jawabanE)
-				VALUES($r[questionId]','$r[categoryId]','$r[variabelId]','$companyId','$asfa','0','0','3','0','0')");
+				VALUES('$r[questionId]','$r[categoryId]','$r[variabelId]','$companyId','$asfa','0','0','3','0','0')");
+				// VALUES($r[questionId]','$r[categoryId]','$r[variabelId]','$companyId','$asfa','0','0','3','0','0')");
 			}
 			elseif($asfa == '2'){
 				mysqli_query($db,"INSERT INTO tanswer (descriptionId,categoryId,variabelId,respondenId,jawaban,jawabanA,jawabanB,jawabanC,jawabanD,jawabanE)

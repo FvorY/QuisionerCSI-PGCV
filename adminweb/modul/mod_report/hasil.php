@@ -19,6 +19,19 @@
 
 	}
 
+	function calculate_median($arr) {
+		$count = count($arr); //total numbers in array
+		$middleval = floor(($count-1)/2); // find the middle value, or the lowest middle value
+		if($count % 2) { // odd number, middle is the median
+			$median = $arr[$middleval];
+		} else { // even number, calculate avg of 2 medians
+			$low = $arr[$middleval];
+			$high = $arr[$middleval+1];
+			$median = (($low+$high)/2);
+		}
+		return $median;
+	}
+
 	function variance($a)
 	{
 	  $the_variance = 0.0;
@@ -138,6 +151,98 @@
 		}
 		return $I;
 	}
+
+	function TDIST($value, $degrees, $tails) {
+		$M_2DIVPI = 0.63661977236758134307553505349006;
+	
+		if ((is_numeric($value)) && (is_numeric($degrees)) && (is_numeric($tails))) {
+			if (($value < 0) || ($degrees < 1) || ($tails < 1) || ($tails > 2)) {
+				return NAN;
+			}
+			//	tdist, which finds the probability that corresponds to a given value
+			//	of t with k degrees of freedom. This algorithm is translated from a
+			//	pascal function on p81 of "Statistical Computing in Pascal" by D
+			//	Cooke, A H Craven & G M Clark (1985: Edward Arnold (Pubs.) Ltd:
+			//	London). The above Pascal algorithm is itself a translation of the
+			//	fortran algoritm "AS 3" by B E Cooper of the Atlas Computer
+			//	Laboratory as reported in (among other places) "Applied Statistics
+			//	Algorithms", editied by P Griffiths and I D Hill (1985; Ellis
+			//	Horwood Ltd.; W. Sussex, England).
+			$tterm = $degrees;
+			$ttheta = atan2($value,sqrt($tterm));
+			$tc = cos($ttheta);
+			$ts = sin($ttheta);
+			$tsum = 0;
+
+			if (($degrees % 2) == 1) {
+				$ti = 3;
+				$tterm = $tc;
+			} else {
+				$ti = 2;
+				$tterm = 1;
+			}
+
+			$tsum = $tterm;
+			while ($ti < $degrees) {
+				$tterm *= $tc * $tc * ($ti - 1) / $ti;
+				$tsum += $tterm;
+				$ti += 2;
+			}
+			$tsum *= $ts;
+			if (($degrees % 2) == 1) { $tsum = $M_2DIVPI * ($tsum + $ttheta); }
+			$tValue = 0.5 * (1 + $tsum);
+			if ($tails == 1) {
+				return 1 - abs($tValue);
+			} else {
+				return 1 - abs((1 - $tValue) - $tValue);
+			}
+		}
+		return 0;
+	}	
+
+	function TINV($probability, $degrees) {
+		$PRECISION = 8.88E-016;
+		$MAX_ITERATIONS = 256;
+		if ((is_numeric($probability)) && (is_numeric($degrees))) {
+			$xLo = 100;
+			$xHi = 0;
+
+			$x = $xNew = 1;
+			$dx	= 1;
+			$i = 0;
+
+			while ((abs($dx) > $PRECISION) && ($i++ < $MAX_ITERATIONS)) {
+				// Apply Newton-Raphson step
+				$result = TDIST($x, $degrees, 2);
+				$error = $result - $probability;
+				if ($error == 0.0) {
+					$dx = 0;
+				} elseif ($error < 0.0) {
+					$xLo = $x;
+				} else {
+					$xHi = $x;
+				}
+				// Avoid division by zero
+				if ($result != 0.0) {
+					$dx = $error / $result;
+					$xNew = $x - $dx;
+				}
+				// If the NR fails to converge (which for example may be the
+				// case if the initial guess is too rough) we apply a bisection
+				// step to determine a more narrow interval around the root.
+				if (($xNew < $xLo) || ($xNew > $xHi) || ($result == 0.0)) {
+					$xNew = ($xLo + $xHi) / 2;
+					$dx = $xNew - $x;
+				}
+				$x = $xNew;
+			}
+			if ($i == $MAX_ITERATIONS) {
+				return NAN;
+			}
+			return round($x,12);
+		}
+		return 0;
+	}	//	function TINV()
 ?>
 <script type="text/javascript" src="fusion/JS/jquery-1.4.js"></script>
 <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
@@ -659,12 +764,13 @@
 			<div class="panel-title">Hasil Perhitungan</div>
 		</div>
 		<div class="panel-body">
-			<table id="tablekonten" class="table table-striped table-bordered">
+			<table id="tablekonten" class="table table-striped table-bordered" style="display: block;
+    overflow-x: auto;
+    white-space: nowrap;">
 
 			<?php
 				$dy=array();
 				$sql = mysqli_query($db,"SELECT * FROM tresponden order by respondenId");
-
 				while ($data = mysqli_fetch_array($sql)){
 					$sql1 = mysqli_query($db,"SELECT sum(jawaban) as jawabanjumlah FROM tanswer where respondenId='".$data['respondenId']."' AND categoryId=2");
 
@@ -672,38 +778,32 @@
 						array_push($dy,$data1['jawabanjumlah']);
 					}
 				}
-
 				$sql = mysqli_query($db,"SELECT * FROM tquestion");
 				echo "<tr><td></td>";
 				$pearson=array();
 				$ind=1;
+				$dx=array();
 				while ($data = mysqli_fetch_array($sql)){
-					$sql1 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=2 order by respondenId");
-					$dx=array();
+					$sql11 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=2 order by respondenId");
+					
 					echo "<td style='font-size:8px'>".$ind."</td>";
-					while ($data1 = mysqli_fetch_array($sql1)){
+					while ($data1 = mysqli_fetch_array($sql11)){
 						array_push($dx,$data1['jawaban']);
 					}
-					// print_r($dy);
-					// echo "<br>";
-					// print_r($dx);
-					// echo "<br>";
-
 					$nilai = pearson($dx,$dy);
-					// echo $nilai;
-					// echo "<br>";
-					// echo "<br>";
 					array_push($pearson,$nilai);
+					
 					$ind++;
 				}
 				echo "</tr>";
-				echo "<tr><td style='font-size:8px'>Korelasi</td>";
+				echo "<tr><td style='font-size:8px'>Rxy</td>";
 				$thitung = array();
 				for($x=0;$x<count($pearson);$x++){
 					//$pearson[$x] = round($pearson[$x], 4);
 					echo "<td style='font-size:8px'>".number_format($pearson[$x],3,',','')."</td>";
-					$nilai = (count($dx)-2)**0.5*$pearson[$x];
-					$nilai1 = (1-$pearson[$x]**2)**0.5;
+					$nilai = sqrt(count($dx)-2)*$pearson[$x];
+					
+					$nilai1 = sqrt(1-$pearson[$x]**2);
 					// echo $nilai;
 					// echo "<br>";
 					// echo $nilai1;
@@ -718,18 +818,18 @@
 					echo "<td style='font-size:8px'>".number_format($thitung[$x],3,',','')."</td>";
 
 				}
+				$tTable = TINV(2*0.05, count($dx));
 				echo "</tr>";
 				echo "<tr><td style='font-size:8px'>T-Table</td>";
-				for($x=0;$x<count($thitung);$x++){
-					echo "<td style='font-size:8px'>1,6472</td>";
-
-				}
+				echo "<td style='font-size:8px'>".number_format($tTable, 3,',','')."</td>";
 				echo "</tr>";
 				echo "<tr><td style='font-size:8px'>Ket</td>";
-				for($x=0;$x<count($pearson);$x++){
+				$jmlValid = 0;
+				for($x=0;$x<count($thitung);$x++){
 					$ket = "TV";
-					if($pearson[$x]<1.6472){
+					if($thitung[$x]>$tTable){
 						$ket="V";
+						$jmlValid += 1;
 					}
 					echo "<td style='font-size:8px'>".$ket."</td>";
 				}
@@ -741,6 +841,7 @@
 
 
 			</table>
+			<p>Jumlah Valid: <?php echo $jmlValid?></p>
 			<p>Keterangan</p>
 			<p>V = Valid</p>
 			<p>TV = Tidak Valid</p>
@@ -769,43 +870,30 @@
 						array_push($dy,$data1['jawabanjumlah']);
 					}
 				}
-
 				$sql = mysqli_query($db,"SELECT * FROM tquestion");
 				echo "<tr><td></td>";
 				$pearson=array();
+				$dx=array();
 				$ind=1;
 				while ($data = mysqli_fetch_array($sql)){
 					$sql1 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=1 order by respondenId");
-					$dx=array();
+					
 					echo "<td style='font-size:8px'>".$ind."</td>";
 					while ($data1 = mysqli_fetch_array($sql1)){
 						array_push($dx,$data1['jawaban']);
 					}
-					// print_r($dy);
-					// echo "<br>";
-					// print_r($dx);
-					// echo "<br>";
-
 					$nilai = pearson($dx,$dy);
-					// echo $nilai;
-					// echo "<br>";
-					// echo "<br>";
 					array_push($pearson,$nilai);
 					$ind++;
 				}
 				echo "</tr>";
-				echo "<tr><td style='font-size:8px'>Korelasi</td>";
+				echo "<tr><td style='font-size:8px'>Rxy</td>";
 				$thitung = array();
 				for($x=0;$x<count($pearson);$x++){
 					//$pearson[$x] = round($pearson[$x], 4);
 					echo "<td style='font-size:8px'>".number_format($pearson[$x],3,',','')."</td>";
-					$nilai = (count($dx)-2)**0.5*$pearson[$x];
-					$nilai1 = (1-$pearson[$x]**2)**0.5;
-					// echo $nilai;
-					// echo "<br>";
-					// echo $nilai1;
-					// echo "<br>";
-					// echo "<br>";
+					$nilai = sqrt(count($dx)-2)*$pearson[$x];
+					$nilai1 = sqrt(1-$pearson[$x]**2);
 					array_push($thitung,$nilai/$nilai1);
 				}
 				echo "</tr>";
@@ -815,29 +903,27 @@
 					echo "<td style='font-size:8px'>".number_format($thitung[$x],3,',','')."</td>";
 
 				}
+				$tTable = TINV(2*0.05, count($dx));
 				echo "</tr>";
 				echo "<tr><td style='font-size:8px'>T-Table</td>";
-				for($x=0;$x<count($thitung);$x++){
-					echo "<td style='font-size:8px'>1,6472</td>";
-
-				}
+				echo "<td style='font-size:8px'>".number_format($tTable, 3,',','')."</td>";
 				echo "</tr>";
 				echo "<tr><td style='font-size:8px'>Ket</td>";
-				for($x=0;$x<count($pearson);$x++){
+				$jmlValid = 0;
+				for($x=0;$x<count($thitung);$x++){
 					$ket = "TV";
-					if($pearson[$x]<1.6472){
+					if($thitung[$x]>$tTable){
 						$ket="V";
+						$jmlValid += 1;
 					}
 					echo "<td style='font-size:8px'>".$ket."</td>";
 				}
 				echo "</tr>";
-
-
-
 			?>
 
 
 			</table>
+			<p>Jumlah Valid: <?php echo $jmlValid?></p>
 			<p>Keterangan</p>
 			<p>V = Valid</p>
 			<p>TV = Tidak Valid</p>
@@ -869,10 +955,11 @@
 				$sql = mysqli_query($db,"SELECT * FROM tquestion");
 				echo "<tr><td></td>";
 				$varx=array();
+				$dx=array();
 				$ind=1;
 				while ($data = mysqli_fetch_array($sql)){
 					$sql1 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=2");
-					$dx=array();
+					
 					echo "<td style='font-size:8px'>".$ind."</td>";
 					while ($data1 = mysqli_fetch_array($sql1)){
 						array_push($dx,$data1['jawaban']);
@@ -905,13 +992,11 @@
 				}
 				echo "</tr>";
 
-			?><p>Reabilitas : <?php echo $reab?></p>
-			<p>Jumlah Varian Item : <?php echo array_sum($varx)?></p>
-			<p>Total skor Varian : <?php echo $vary?></p>
+			?>
 			</table>
-			<p>Keterangan</p>
-			<p>R = Realibel</p>
-			<p>NR = Tidak Realibel</p>
+			<p>Reabilitas : <?php echo $reab?></p>
+			<p>Jumlah Varian : <?php echo array_sum($varx)?></p>
+			<p>Total Varian : <?php echo $vary?></p>
 		</div>
 	</div>
  <?php
@@ -940,10 +1025,11 @@
 				$sql = mysqli_query($db,"SELECT * FROM tquestion");
 				echo "<tr><td></td>";
 				$varx=array();
+				$dx=array();
 				$ind=1;
 				while ($data = mysqli_fetch_array($sql)){
 					$sql1 = mysqli_query($db,"SELECT * FROM tanswer where descriptionId='".$data['questionId']."' AND categoryId=1");
-					$dx=array();
+					
 					echo "<td style='font-size:8px'>".$ind."</td>";
 					while ($data1 = mysqli_fetch_array($sql1)){
 						array_push($dx,$data1['jawaban']);
@@ -955,7 +1041,6 @@
 				}
 				echo "</tr>";
 				echo "<tr><td style='font-size:8px'>Varian</td>";
-
 				for($x=0;$x<count($varx);$x++){
 					echo "<td style='font-size:8px'>".number_format($varx[$x],3,',','')."</td>";
 
@@ -963,7 +1048,6 @@
 				echo "</tr>";
 
 				$vary = variance($dy);
-
 				$reab = (count($dx)/(count($dx)-1)) * (1-(array_sum($varx)/$vary));
 				echo "<tr style='font-size:8px'><td>Ket</td>";
 				for($x=0;$x<count($varx);$x++){
@@ -976,13 +1060,11 @@
 				}
 				echo "</tr>";
 
-			?><p>Reabilitas : <?php echo $reab?></p>
-			<p>Jumlah Varian Item : <?php echo array_sum($varx)?></p>
-			<p>Total skor Varian : <?php echo $vary?></p>
+			?>
 			</table>
-			<p>Keterangan</p>
-			<p>R = Realibel</p>
-			<p>NR = Tidak Realibel</p>
+			<p>Reabilitas : <?php echo $reab?></p>
+			<p>Jumlah Varian : <?php echo array_sum($varx)?></p>
+			<p>Total Varian : <?php echo $vary?></p>
 		</div>
 	</div>
  <?php
@@ -996,9 +1078,152 @@
 		</div>
 		<div class="panel-body">
 			<table id="tablekonten" class="table table-striped table-bordered">
+			<h3>Analisis CSI</h3>
+			<?php
+				echo "<thead>";
+				echo "<tr><td></td>";
+				echo "<td style='font-size:8px'>MIS</td>";
+				echo "<td style='font-size:8px'>MSS</td>";
+				echo "<td style='font-size:8px'>WF</td>";
+				echo "<td style='font-size:8px'>WS</td>";
+				echo "</tr>";
+				echo "</thead>";
+				$sqlVar = mysqli_query($db,"SELECT * FROM tvariabel");
+				$sumMIS = 0;
+				$sumMSS = 0;
+				$count = 0;
+				$dataOri = array();
+				$arrMIS = array();
+				$arrMSS = array();
+				while($data = mysqli_fetch_array($sqlVar)){
+					array_push($dataOri, $data);
+					$sqlMIS = mysqli_query($db, "SELECT jawaban FROM tanswer WHERE variabelId = ".$data['variabelId']."&& categoryId = 1");
+					$dataMIS = mysqli_fetch_array($sqlMIS);
+					$MIS = array_sum($dataMIS)/count($dataMIS);
+					$sumMIS += $MIS;
+					array_push($arrMIS,$MIS);
 
+					$sqlMSS = mysqli_query($db, "SELECT jawaban FROM tanswer WHERE variabelId = ".$data['variabelId']."&& categoryId = 2");
+					$dataMSS = mysqli_fetch_array($sqlMSS);
+					$MSS = array_sum($dataMSS)/count($dataMSS);
+					$sumMSS += $MSS;
+					array_push($arrMSS,$MSS);
+					
+					$count += 1;
+				}
+				echo "<tbody>";
+				$sumWs = 0;
+				for($x=0;$x<$count;$x++){
+					$data = $dataOri[$x];
+					$MIS = $arrMIS[$x];
+					$MSS = $arrMSS[$x];
+					$WF = $MIS / $sumMIS;
+					$WS = $MSS * $WF;
+					$sumWs += $WS;
+
+					echo "<tr><td style='font-size:8px'>".$data['variabelName']."</td>";
+					echo "<td style='font-size:8px'>".$MIS."</td>";
+					echo "<td style='font-size:8px'>".$MSS."</td>";
+					echo "<td style='font-size:8px'>".$WF."</td>";
+					echo "<td style='font-size:8px'>".$WS."</td>";
+				}
+				
+				echo "</tr>";
+				echo "</tbody>";
+				$analisisCSI = $sumWs / 5;
+			?>
 			</table>
+			<p>Analisis CSI : <?php echo $analisisCSI?></p>
+			</br>
+			<p>Keterangan</p>
+			<p>MIS = rata-rata tingkat kepentingan/harapan</p>
+			<p>MSS = rata-rata tingkat kinerja/kepuasan</p>
+			</br>
+			</br>
+			<h3>Analisis PGCV</h3>
+			<table id="tablekonten" class="table table-striped table-bordered">
+			<?php
+				echo "<thead>";
+				echo "<tr><td></td>";
+				echo "<td style='font-size:8px'>ACV</td>";
+				echo "<td style='font-size:8px'>UDCV</td>";
+				echo "<td style='font-size:8px'>PGCV</td>";
+				echo "<td style='font-size:8px'>MEDIAN</td>";
+				echo "<td style='font-size:8px'>KETERANGAN</td>";
+				echo "</tr>";
+				echo "</thead>";
+				echo "<tbody>";
+				$arrPGCV = array();
+				mysqli_query($db, "DELETE from tprioritas");
+				for($x=0;$x<$count;$x++){
+					$MIS = $arrMIS[$x];
+					$MSS = $arrMSS[$x];
+					$ACV = $MIS * $MSS;
+					$UDCV = $MIS * 5;
+					$PGCV = $UDCV - $ACV;
+					array_push($arrPGCV, $PGCV);
+				}
+				for($x=0;$x<$count;$x++){
+					$data = $dataOri[$x];
+					$MIS = $arrMIS[$x];
+					$MSS = $arrMSS[$x];
+					$ACV = $MIS * $MSS;
+					$UDCV = $MIS * 5;
+					$PGCV = $UDCV - $ACV;
+					$median = calculate_median($arrPGCV);
+					echo "<tr><td style='font-size:8px'>".$data['variabelName']."</td>";
+					echo "<td style='font-size:8px'>".$ACV."</td>";
+					echo "<td style='font-size:8px'>".$UDCV."</td>";
+					echo "<td style='font-size:8px'>".$PGCV."</td>";
+					// if($x == 0){
+						echo "<td style='font-size:8px'>".$median."</td>";
+					// }
+					if($PGCV > $median){
+						echo "<td style='font-size:8px'>Kurang</td>";
+						mysqli_query($db, "INSERT INTO tprioritas (variabelName, pgcv) VALUES ('".$data['variabelName']."', ".$PGCV.")");
 
+					}else{
+						echo "<td style='font-size:8px'>BAIK</td>";
+						
+						// if($s1l){
+						// 	var_dump("wowowo");
+						// }else{
+						// 	var_dump("gala");
+						// }
+					}
+				}
+				
+				echo "</tr>";
+				echo "</tbody>";
+			?>
+			</table>
+			</br>
+			</br>
+			<h3>PRIORITAS PERBAIKAN SISTEM</h3>
+			<table id="tablekonten" class="table table-striped table-bordered">
+			<?php
+				echo "<thead>";
+				echo "<td style='font-size:8px'>VARIABEL</td>";
+				echo "<td style='font-size:8px'>PGCV</td>";
+				echo "<td style='font-size:8px'>PRIORITAS</td>";
+				echo "</tr>";
+				echo "</thead>";
+				echo "<tbody>";
+				$arrPGCV = array();
+				
+				$sql = mysqli_query($db, "SELECT * FROM tprioritas ORDER by pgcv DESC");
+				$i = 1;
+				while($row = mysqli_fetch_array($sql)){
+					echo "<tr><td style='font-size:8px'>".$row['variabelName']."</td>";
+					echo "<td style='font-size:8px'>".$row['pgcv']."</td>";
+					echo "<td style='font-size:8px'>".$i."</td>";
+					$i += 1;
+				}
+				
+				echo "</tr>";
+				echo "</tbody>";
+			?>
+			</table>
 		</div>
 	</div>
  <?php
