@@ -40,12 +40,12 @@ echo "<table border=1 cellpadding=0 cellspacing=0>
 $no = 1;
 while ($data = mysqli_fetch_array($hasil)){
 	$descriptionId = $data[descriptionId];
-	$sql = mysqli_query($db,"SELECT SUM(jawabanA) As TotalA,
-						SUM(jawabanB) As TotalB,
-						SUM(jawabanC) As TotalC,
-						SUM(jawabanD) As TotalD,
+	$sql = mysqli_query($db,"SELECT SUM(jawaban5) As TotalA,
+						SUM(jawaban4) As TotalB,
+						SUM(jawaban3) As TotalC,
+						SUM(jawaban2) As TotalD,
 						SUM(jawabanE) As TotalE,
-						SUM(jawabanA+jawabanB+jawabanC+jawabanD+jawabanE) As jumlahtotal
+						SUM(jawaban5+jawaban4+jawaban3+jawaban2+jawabanE) As jumlahtotal
 						FROM tanswer WHERE descriptionId = '$descriptionId'");
 	
 	while($oke = mysqli_fetch_array($sql)){
@@ -63,12 +63,12 @@ while ($data = mysqli_fetch_array($hasil)){
 		$no++;
 	}
 }
-$data_count = mysqli_fetch_array(mysqli_query($db,"SELECT SUM(jawabanA) As TotalA,
-						SUM(jawabanB) As TotalB,
-						SUM(jawabanC) As TotalC,
-						SUM(jawabanD) As TotalD,
+$data_count = mysqli_fetch_array(mysqli_query($db,"SELECT SUM(jawaban5) As TotalA,
+						SUM(jawaban4) As TotalB,
+						SUM(jawaban3) As TotalC,
+						SUM(jawaban2) As TotalD,
 						SUM(jawabanE) As TotalE,
-						SUM(jawabanA+jawabanB+jawabanC+jawabanD+jawabanE) As jumlahtotal
+						SUM(jawaban5+jawaban4+jawaban3+jawaban2+jawabanE) As jumlahtotal
 						FROM tanswer"));
 echo "<tr align=center>
 	

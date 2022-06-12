@@ -197,17 +197,19 @@ function gantipass()
                         <a href="?module=home"><i class="glyphicon glyphicon-home"></i> Home</a>
                     </li>
                 
-                    <li class="<?php if($_GET['module']=='variabel'){echo'active';} ?>">
-                        <a href="?module=variabel"><i class="glyphicon glyphicon-list"></i> Manajemen Variabel</a>
+            
+                    <li class="<?php if($_GET['module']=='user'){echo'active';} ?>">
+                        <a href="?module=user"><i class="glyphicon glyphicon-user"></i> Manajemen User</a>
                     </li>
                     <li class="<?php if($_GET['module']=='question'){echo'active';} ?>">
                         <a href="?module=question"><i class="glyphicon glyphicon-book"></i> Manajemen Pertanyaan </a>
                     </li>
-                    <li class="<?php if($_GET['module']=='user'){echo'active';} ?>">
-                        <a href="?module=user"><i class="glyphicon glyphicon-user"></i> Manajemen User</a>
+                    <li class="<?php if($_GET['module']=='variabel'){echo'active';} ?>">
+                        <a href="?module=variabel"><i class="glyphicon glyphicon-list"></i> Manajemen Variabel</a>
                     </li>
+                    
                     <li class="<?php if($_GET['module']=='hasil'){echo'active';} ?>">
-                        <a href="?module=hasil&sub=all"><i class="glyphicon glyphicon-new-window"></i> Laporan</a>
+                        <a href="?module=hasil&sub=all"><i class="glyphicon glyphicon-new-window"></i> Analisis Data</a>
                     </li>
                 </ul>
             </div>

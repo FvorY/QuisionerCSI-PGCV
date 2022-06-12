@@ -63,10 +63,10 @@ class PagingSoal{
 		// Link halaman 1,2,3, ...
 		for ($i=1; $i<=$jmlhalaman; $i++){
 			if ($i == $halaman_aktif){
-				$link_halaman .= "<li class='active'><a href='$_SERVER[PHP_SELF]?module=description'>$i</a></li> ";
+				$link_halaman .= "<li class='active'><a href='$_SERVER[PHP_SELF]?module=question'>$i</a></li> ";
 			}
 			else{
-				$link_halaman .= "<li><a href='$_SERVER[PHP_SELF]?module=description&halaman=$i'>$i</a></li>";
+				$link_halaman .= "<li><a href='$_SERVER[PHP_SELF]?module=question&halaman=$i'>$i</a></li>";
 			}
 			$link_halaman .= " ";
 		}
