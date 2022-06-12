@@ -30,11 +30,11 @@ echo "<table border=1 cellpadding=0 cellspacing=0>
 			<td bgcolor=#c6e1f2 align=center><b>NO</b></td>
 			<td bgcolor=#c6e1f2 align=center><b>GROUP ID</b></td>
 			<td bgcolor=#c6e1f2 align=center><b>DESCRIPTION</b></td>
-			<td bgcolor=#c6e1f2 align=center><b>JAWABAN A</b></td>
-			<td bgcolor=#c6e1f2 align=center><b>JAWABAN B</b></td>
-			<td bgcolor=#c6e1f2 align=center><b>JAWABAN C</b></td>
-			<td bgcolor=#c6e1f2 align=center><b>JAWABAN D</b></td>
-			<td bgcolor=#c6e1f2 align=center><b>JAWABAN E</b></td>
+			<td bgcolor=#c6e1f2 align=center><b>JAWABAN 5</b></td>
+			<td bgcolor=#c6e1f2 align=center><b>JAWABAN 4</b></td>
+			<td bgcolor=#c6e1f2 align=center><b>JAWABAN 3</b></td>
+			<td bgcolor=#c6e1f2 align=center><b>JAWABAN 2</b></td>
+			<td bgcolor=#c6e1f2 align=center><b>JAWABAN 1</b></td>
 			<td bgcolor=#c6e1f2 align=center><b>Jumlah Total</b></td>
 		</tr>";
 $no = 1;

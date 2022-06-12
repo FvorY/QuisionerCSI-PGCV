@@ -87,11 +87,11 @@ echo "<center><table border=0 cellpadding=10 cellspacing=5 bgcolor= #e6e6e6>
 					<td bgcolor=#c6e1f2 align=center><b>NO</b></td>
 					<td bgcolor=#c6e1f2 align=center><b>VARIABEL ID</b></td>
 					<td bgcolor=#c6e1f2 align=center><b>QUESTION</b></td>
-					<td bgcolor=#c6e1f2 align=center><b>JAWABAN A</b></td>
-					<td bgcolor=#c6e1f2 align=center><b>JAWABAN B</b></td>
-					<td bgcolor=#c6e1f2 align=center><b>JAWABAN C</b></td>
-					<td bgcolor=#c6e1f2 align=center><b>JAWABAN D</b></td>
-					<td bgcolor=#c6e1f2 align=center><b>JAWABAN E</b></td>
+					<td bgcolor=#c6e1f2 align=center><b>JAWABAN 5</b></td>
+					<td bgcolor=#c6e1f2 align=center><b>JAWABAN 4</b></td>
+					<td bgcolor=#c6e1f2 align=center><b>JAWABAN 3</b></td>
+					<td bgcolor=#c6e1f2 align=center><b>JAWABAN 2</b></td>
+					<td bgcolor=#c6e1f2 align=center><b>JAWABAN 1</b></td>
 					<td bgcolor=#c6e1f2 align=center><b>Jumlah Total</b></td>
 					<tr>
 		";
