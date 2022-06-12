@@ -365,19 +365,19 @@ function TINV($probability, $degrees)
 					<font size=2 face=tahoma>Data</font>
 				</th>
 				<th width="18%">
-					<font size=2 face=tahoma>Sangat Puas</font>
+					<font size=2 face=tahoma>Sangat Penting</font>
 				</th>
 				<th width="18%">
-					<font size=2 face=tahoma>Puas</font>
+					<font size=2 face=tahoma>Penting</font>
 				</th>
 				<th width="18%">
-					<font size=2 face=tahoma>Cukup Puas</font>
+					<font size=2 face=tahoma>Cukup Penting</font>
 				</th>
 				<th width="18%">
-					<font size=2 face=tahoma>Kurang Puas</font>
+					<font size=2 face=tahoma>Kurang Penting</font>
 				</th>
 				<th>
-					<font size=2 face=tahoma>Tidak Puas</font>
+					<font size=2 face=tahoma>Tidak Penting</font>
 				</th>
 			</tr>
 			<?php
@@ -521,23 +521,23 @@ function TINV($probability, $degrees)
 					},
 					// chart data
 					data: [{
-							label: "Sangat Puas",
+							label: "Sangat Penting",
 							value: "<?php echo "$a" ?>"
 						},
 						{
-							label: "Puas",
+							label: "Penting",
 							value: "<?php echo "$b" ?>"
 						},
 						{
-							label: "Cukup Puas",
+							label: "Cukup Penting",
 							value: "<?php echo "$c" ?>"
 						},
 						{
-							label: "Kurang Puas",
+							label: "Kurang Penting",
 							value: "<?php echo "$d" ?>"
 						},
 						{
-							label: "Tidak Puas",
+							label: "Tidak Penting",
 							value: "<?php echo "$e" ?>"
 						},
 					]
@@ -698,23 +698,23 @@ function TINV($probability, $degrees)
 								},
 								// chart data
 								data: [{
-										label: "Sangat Puas",
+										label: "5",
 										value: "<?php echo "$a" ?>"
 									},
 									{
-										label: "Puas",
+										label: "4",
 										value: "<?php echo "$b" ?>"
 									},
 									{
-										label: "Cukup Puas",
+										label: "3",
 										value: "<?php echo "$c" ?>"
 									},
 									{
-										label: "Kurang Puas",
+										label: "2",
 										value: "<?php echo "$d" ?>"
 									},
 									{
-										label: "Tidak Puas",
+										label: "1",
 										value: "<?php echo "$e" ?>"
 									},
 								]
