@@ -3,11 +3,9 @@
 error_reporting(0);
 include "koneksi.php";
 include "fungsi/fungsi_indotgl.php";
-$companyName	= $_POST[name];
-$pekerjaan = $_POST[companyProduct];
-$gender = $_POST[gender];
-$prodi = $_POST[prodi];
-$nim = $_POST[nim];
+$companyName	= "Ferdy Ganteng";
+$pekerjaan = "Nganggur";
+$prodi = "Dosen";
 $date	= date('Y-m-d');
 $no=1;
 $companyId =date('Ymd his');
@@ -20,7 +18,7 @@ while($data_hitung = mysqli_fetch_array($sql_hitung)){
 	$i_hitung = 1;
 	while ($r_hitung = mysqli_fetch_array($hasil_hitung)){
 		$id_hitung = $data_hitung[variabelId];
-		$asfa_hitung = $_POST['asfa'.$i_hitung.$id_hitung];
+		$asfa_hitung = rand(1,5);
 		if (empty($asfa_hitung)){
 			echo "<script lang=javascript>
 		 		window.alert('Anda belum mengisi kuisioner atau ada kuisioner yang belum terisi..!');
@@ -50,32 +48,18 @@ elseif (empty($prodi)){
 		 		</script>";
   			exit;
 }
-elseif (empty($nim)){
-	echo "<script lang=javascript>
-		 		window.alert('NIM');
-		 		history.back();
-		 		</script>";
-  			exit;
-}
-elseif (empty($gender)){
-	echo "<script lang=javascript>
-		 		window.alert('Jenis Kelamin');
-		 		history.back();
-		 		</script>";
-  			exit;
-}
 else{
 	$no = 1;
 	$sql = mysqli_query($db,"SELECT * FROM tvariabel");
-	mysqli_query($db,"INSERT INTO tresponden(respondenId,name,gender,prodi,dateSurvey,fakultas,nim)
-	VALUES('$companyId','$companyName', '$gender','$prodi','$date','$pekerjaan','$nim')");
+	mysqli_query($db,"INSERT INTO tresponden(respondenId,name,prodi,dateSurvey,pekerjaan)
+	VALUES('$companyId','$companyName','$prodi','$date','$pekerjaan')");
 	while($data = mysqli_fetch_array($sql)){
 		$id = $data[variabelId];
 		$hasil = mysqli_query($db,"SELECT * FROM tquestion, tvariabel WHERE tquestion.variabelId = '$id' AND tquestion.variabelId = tvariabel.variabelId ORDER BY tvariabel.variabelId");
 		$i = 1;
 		while ($r = mysqli_fetch_array($hasil)){
 			$id = $data[variabelId];
-			$asfa = $_POST['asfa'.$i.$id];
+			$asfa = rand(1,5);
 			// echo "$i $asfa<br>";
 			if ($asfa == '5'){
 				mysqli_query($db,"INSERT INTO tanswer (descriptionId,categoryId,variabelId,respondenId,jawaban,jawaban5,jawaban4,jawaban3,jawaban2,jawabanE)

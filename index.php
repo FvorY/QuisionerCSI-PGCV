@@ -94,29 +94,66 @@
                                           </div>
 
                                           <div class="form-group">
-                                             <label for="alamat_pelanggan" class="control-label col-sm-2">Prodi</label>
+                                             <label for="alamat_pelanggan" class="control-label col-sm-2">Jenis Kelamin</label>
                                              <div class="col-sm-3">
                                                  <div class="input-group">
                                                      <div class="input-group-addon">
                                                          <span class="glyphicon glyphicon-bookmark"></span>
                                                      </div>
-                                                     <input type="text" id="alamat_pelanggan" class="form-control" name="prodi" placeholder="Prodi">
+                                                     <!-- <input type="text" id="alamat_pelanggan" class="form-control" name="prodi" placeholder="Prodi"> -->
+                                                     <select name="gender" id="pekerjaan" class="form-control">
+                                                         <option value="Laki - Laki">Laki - Laki</option>
+                                                         <option value="Perempuan">Perempuan</option>
+                                                     </select>
                                                  </div>
                                              </div>
                                           </div>
                                           <div class="form-group">
 
-                                             <label for="produk" class="control-label col-sm-2">Pekerjaan</label>
+                                             <label for="produk" class="control-label col-sm-2">Fakultas</label>
                                              <div class="col-sm-3">
                                                  <div class="input-group">
                                                      <div class="input-group-addon">
                                                          <span class="glyphicon glyphicon-tags"></span>
                                                      </div>
                                                      <select name="companyProduct" id="pekerjaan" class="form-control">
-                                                         <option value="Dosen">Dosen</option>
-                                                         <option value="Pegawai">Pegawai Akademik</option>
-                                                         <option value="Mahasiswa">Mahasiswa</option>
+                                                        <option value="Ekonomi dan Bisnis">Ekonomi dan Bisnis</option>
+                                                         <option value="Teknik">Teknik</option>
+                                                         <option value="Hukum">Hukum</option>
+                                                         <option value="Pertanian">Pertanian</option>
+                                                         <option value="Ilmu Sosial dan Ilmu Budaya">Ilmu Sosial dan Ilmu Budaya</option>
+                                                         <option value="Keislaman">Keislaman</option>
+                                                         <option value="Ilmu Pendidikan">Ilmu Pendidikan</option>
                                                      </select>
+                                                 </div>
+                                             </div>
+                                          </div>
+                                          <div class="form-group">
+                                             <label for="studi" class="control-label col-sm-2">Program Studi</label>
+                                             <div class="col-sm-3">
+                                                 <div class="input-group">
+                                                     <div class="input-group-addon">
+                                                         <span class="glyphicon glyphicon-bookmark"></span>
+                                                     </div>
+                                                     <!-- <input type="text" id="prodi" class="form-control" name="prodi" placeholder="Prodi"> -->
+                                                     <select name="prodi" id="pekerjaan" class="form-control">
+                                                         <option value="Pendidikan Guru Sekolah Dasar">Pendidikan Guru Sekolah Dasar</option>
+                                                         <option value="Pendidikan Guru Anak Usia Dini">Pendidikan Guru Anak Usia Dini</option>
+                                                         <option value="Pendidikan IPA">Pendidikan IPA</option>
+                                                         <option value="Pendidikan Informatika">Pendidikan Informatika</option>
+                                                         <option value="Pendidikan Bahasa dan Sastra">Pendidikan Bahasa dan Sastra</option>
+                                                     </select>
+                                                 </div>
+                                             </div>
+                                          </div>
+                                          <div class="form-group">
+                                             <label for="nim" class="control-label col-sm-2">NIM</label>
+                                             <div class="col-sm-3">
+                                                 <div class="input-group">
+                                                     <div class="input-group-addon">
+                                                         <span class="glyphicon glyphicon-bookmark"></span>
+                                                     </div>
+                                                     <input type="text" id="nim" class="form-control" name="nim" placeholder="NIM">
                                                  </div>
                                              </div>
                                           </div>
@@ -162,11 +199,11 @@
                                                             <td><font face='Tahoma' size='2' colspan='1'><b> $no</b></font></td>
                                                             <td colspan='2'><font face='Tahoma' size='2'><b>$data[variabelName]</b></font></td>
 
-                                                            <td height='25' width='9%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>A<br>(Sangat Puas)</font></td>
-                                                            <td height='25' width='8%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>B<br>(Puas)</font></td>
-                                                            <td height='25' width='8%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>C<br>(Cukup Puas)</font></td>
-                                                            <td height='25' width='8%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>D<br>(Kurang Puas)</font></td>
-                                                            <td height='25' width='11%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>E<br>(Tidak Puas)</font></td>
+                                                            <td height='25' width='9%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>5</font></td>
+                                                            <td height='25' width='8%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>4</font></td>
+                                                            <td height='25' width='8%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>3</font></td>
+                                                            <td height='25' width='8%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>2</font></td>
+                                                            <td height='25' width='11%' bgcolor='#000000'><p align='center'><font face='Tahoma' size='1' color='white'>1</font></td>
                                                         </tr>";
                                                   }
 

@@ -19,7 +19,6 @@
                 $tanggalFinal = tgl_indo($tanggal);
                 $time = date('h:i:s');
                 ?>
-                <h3 class="panel-title" align="right"><i class="glyphicon glyphicon-calendar"></i> <?php echo "<font face='tahoma' size='2'>$tanggalFinal | $time</font>"; ?></h3>
             </div>
             <div class="panel-body">
                 <div class="well">
