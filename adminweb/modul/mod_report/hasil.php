@@ -346,7 +346,8 @@ function TINV($probability, $degrees)
 	</ul>
 </nav>
 <?php if ($_GET['sub'] == 'all') { ?>
-	<div class="panel panel-primary">
+	<div class='col-md-6' style='padding-left:0px;padding-right:0px;'>
+	<div class="panel panel-primary" style='margin-left:10px'>
 		<div class="panel-heading">
 			<script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
 			<div class="panel-title">Grafik Kuisioner Kepentingan</div>
@@ -381,7 +382,7 @@ function TINV($probability, $degrees)
 				</th>
 			</tr>
 			<?php
-			$sql = mysqli_query($db, "SELECT 
+			$sql = mysqli_query($db, "SELECT
   									CEILING(SUM(jawaban5) / 5) As TotalA,
 						CEILING(SUM(jawaban4) / 4) As TotalB,
 						CEILING(SUM(jawaban3) / 3) As TotalC,
@@ -432,7 +433,8 @@ function TINV($probability, $degrees)
 	</div>
 	</div>
 
-	<div class="panel panel-primary">
+	<div class='col-md-6' style='padding-left:0px;padding-right:0px;'>
+	<div class="panel panel-primary" style='margin-left:10px'>
 		<div class="panel-heading">
 			<div class="panel-title">Grafik Kuisioner Kinerja</div>
 		</div>
@@ -517,7 +519,7 @@ function TINV($probability, $degrees)
 				dataSource: {
 					// chart configuration
 					chart: {
-						caption: "Grafik Kuisioner Keseluruhan",
+						caption: "Grafik Kuisioner Kepentingan",
 						subcaption: ""
 					},
 					// chart data
@@ -544,8 +546,8 @@ function TINV($probability, $degrees)
 					]
 				},
 				dataFormat: "json",
-				width: "1000",
-				height: "500",
+				width: "400",
+				height: "300",
 			});
 
 			chartmyHTMLTable.render();
@@ -557,7 +559,7 @@ function TINV($probability, $degrees)
 				dataSource: {
 					// chart configuration
 					chart: {
-						caption: "Grafik Kuisioner Keseluruhan",
+						caption: "Grafik Kuisioner Kinerja",
 						subcaption: ""
 					},
 					// chart data
@@ -584,8 +586,8 @@ function TINV($probability, $degrees)
 					]
 				},
 				dataFormat: "json",
-				width: "1000",
-				height: "500",
+				width: "400",
+				height: "300",
 			});
 
 			chartmyHTMLTable1.render();
@@ -908,7 +910,7 @@ function TINV($probability, $degrees)
 				echo "<tr><td></td>";
 				$pearson = array();
 				$ind = 1;
-				
+
 				while ($data = mysqli_fetch_array($sql)) {
 					$sql11 = mysqli_query($db, "SELECT * FROM tanswer where descriptionId='" . $data['questionId'] . "' AND categoryId=2 order by respondenId");
 					$dx = array();
@@ -995,7 +997,7 @@ function TINV($probability, $degrees)
 				$dx = array();
 				while ($data = mysqli_fetch_array($sql)) {
 					$sql1 = mysqli_query($db, "SELECT * FROM tanswer where descriptionId='" . $data['questionId'] . "' AND categoryId=1 order by respondenId");
-					
+
 					echo "<td style='font-size:8px'>" . $ind . "</td>";
 					while ($data1 = mysqli_fetch_array($sql1)) {
 						array_push($dx, $data1['jawaban']);
