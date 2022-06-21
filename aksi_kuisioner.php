@@ -4,7 +4,7 @@ error_reporting(0);
 include "koneksi.php";
 include "fungsi/fungsi_indotgl.php";
 $companyName	= $_POST[name];
-$pekerjaan = $_POST[companyProduct];
+$pekerjaan = $_POST[fakultas];
 $gender = $_POST[gender];
 $prodi = $_POST[prodi];
 $nim = $_POST[nim];
@@ -31,13 +31,20 @@ while($data_hitung = mysqli_fetch_array($sql_hitung)){
 
 		$i_hitung++;
 	}
-	echo "<br>";
 	$no_hitung++;
 }
 
 if (empty($companyName)){
 	echo "<script lang=javascript>
 		 		window.alert('Isi Nama Anda');
+		 		history.back();
+		 		</script>";
+  			exit;
+}
+
+elseif (empty($pekerjaan)){
+	echo "<script lang=javascript>
+		 		window.alert('Isi Fakultas Anda');
 		 		history.back();
 		 		</script>";
   			exit;
@@ -65,6 +72,7 @@ elseif (empty($gender)){
   			exit;
 }
 else{
+	$pekerjaan = str_replace('+', ' ', $pekerjaan);
 	$no = 1;
 	$sql = mysqli_query($db,"SELECT * FROM tvariabel");
 	mysqli_query($db,"INSERT INTO tresponden(respondenId,name,gender,prodi,dateSurvey,fakultas,nim)
@@ -110,8 +118,10 @@ else{
 			Terima kasih atas waktu yang telah diluangkan untuk melengkapi survey yang kami sediakan. <br>
 			Pendapat Anda sangat berarti bagi kami untuk meningkatkan kualitas SIAKAD. <br><br>
 			Hormat kami, <br><br>
-			Management<br>
+			RISMAWATI HUSNA<br>
 			<a href='./index.php'>
+			</br>
+			</br>
 			<button  class='btn btn-lg btn-info'><span class='glyphicon glyphicon-arrow-left'></span> Kembali</button>
 			</a>
 			</center>";

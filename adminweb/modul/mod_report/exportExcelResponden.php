@@ -59,12 +59,12 @@ echo "<table border=1 cellpadding=0 cellspacing=0>
 $no = 1;
 while ($data = mysqli_fetch_array($hasil)){
 	$descriptionId = $data[questionId];
-	$sql = mysqli_query($db,"SELECT SUM(jawaban5) As TotalA,
-						SUM(jawaban4) As TotalB,
-						SUM(jawaban3) As TotalC,
-						SUM(jawaban2) As TotalD,
-						SUM(jawabanE) As TotalE,
-						SUM(jawaban5+jawaban4+jawaban3+jawaban2+jawabanE) As jumlahtotal
+	$sql = mysqli_query($db,"SELECT CEILING(SUM(jawaban5) / 5) As TotalA,
+						CEILING(SUM(jawaban4) / 4) As TotalB,
+						CEILING(SUM(jawaban3) / 3) As TotalC,
+						CEILING(SUM(jawaban2) / 2) As TotalD,
+						CEILING(SUM(jawabanE) / 1) As TotalE,
+						SUM( jawaban5 div 5 + jawaban4 div 4 + jawaban3 div 3 + jawaban2 div 2 + jawabanE div 1) As jumlahtotal
 						FROM tanswer WHERE questionId = '$questionId' AND respondenId = '$_GET[id]'");
 	
 	while($oke = mysqli_fetch_array($sql)){
@@ -83,13 +83,15 @@ while ($data = mysqli_fetch_array($hasil)){
 		$no++;
 	}
 }
-$data_count = mysqli_fetch_array(mysqli_query($db,"SELECT SUM(jawaban5) As TotalA,
-						SUM(jawaban4) As TotalB,
-						SUM(jawaban3) As TotalC,
-						SUM(jawaban2) As TotalD,
-						SUM(jawabanE) As TotalE,
-						SUM(jawaban5+jawaban4+jawaban3+jawaban2+jawabanE) As jumlahtotal
+$data_count = mysqli_fetch_array(mysqli_query($db,"SELECT CEILING(SUM(jawaban5) / 5) As TotalA,
+						CEILING(SUM(jawaban4) / 4) As TotalB,
+						CEILING(SUM(jawaban3) / 3) As TotalC,
+						CEILING(SUM(jawaban2) / 2) As TotalD,
+						CEILING(SUM(jawabanE) / 1) As TotalE,
+						SUM( jawaban5 div 5 + jawaban4 div 4 + jawaban3 div 3 + jawaban2 div 2 + jawabanE div 1) As jumlahtotal
 						FROM tanswer WHERE respondenId = '$_GET[id]'"));
+						
+						
 echo "<tr>
 	<td bgcolor=#c6e1f2></td>
 	<td bgcolor=#c6e1f2 align='right'><b>Total</b></td>
@@ -100,4 +102,3 @@ echo "<tr>
 	<td bgcolor=#c6e1f2><b>$data_count[TotalE]</b></td>
 	<td bgcolor=#c6e1f2><b>$data_count[jumlahtotal]</b></td>
 	</tr></table>";
-?>

@@ -86,16 +86,19 @@ echo "<center><table border=0 cellpadding=10 cellspacing=3 bgcolor= #e6e6e6>
 			<td >Nama Responden</td> <td>:</td><td colspan='6'><b>$responden[name]</b></td>
 		</tr>
 		<tr>
-			<td >Alamat</td><td width='1'>:</td><td><b>$responden[address]</b></td>
+			<td >NIM</td><td width='1'>:</td><td><b>$responden[nim]</b></td>
 		</tr>
 		<tr>
-			<td >Telp / HP</td> <td>:</td><td> <b>$responden[phoneHp]</b></td>
+			<td >Jenis Kelamin</td><td width='1'>:</td><td><b>$responden[gender]</b></td>
+		</tr>
+		<tr>
+			<td >Fakultas</td> <td>:</td><td> <b>$responden[fakultas]</b></td>
+		</tr>
+		<tr>
+			<td >Prodi</td> <td>:</td><td> <b>$responden[prodi]</b></td>
 		</tr>
 		<tr>
 			<td width=150>Tanggal Isi Survey</td> <td width=1>:</td><td > <b>$dateIndo </b></td>
-		</tr>
-		<tr>
-			<td >Kritik dan Saran</td> <td>:</td><td> <b>$responden[suggestion]</b></td>
 		</tr>
 		
 		<tr>

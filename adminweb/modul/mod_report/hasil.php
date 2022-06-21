@@ -371,7 +371,7 @@ function TINV($probability, $degrees)
 					<font size=2 face=tahoma>Penting</font>
 				</th>
 				<th width="18%">
-					<font size=2 face=tahoma>Cukup Penting</font>
+					<font size=2 face=tahoma>Netral</font>
 				</th>
 				<th width="18%">
 					<font size=2 face=tahoma>Kurang Penting</font>
@@ -381,12 +381,13 @@ function TINV($probability, $degrees)
 				</th>
 			</tr>
 			<?php
-			$sql = mysqli_query($db, "SELECT SUM(jawaban5) As TotalA,
-  									SUM(jawaban4) As TotalB,
-  									SUM(jawaban3) As TotalC,
-  									SUM(jawaban2) As TotalD,
-  									SUM(jawabanE) As TotalE,
-  									SUM(jawaban5+jawaban4+jawaban3+jawaban2+jawabanE) As jumlahtotal
+			$sql = mysqli_query($db, "SELECT 
+  									CEILING(SUM(jawaban5) / 5) As TotalA,
+						CEILING(SUM(jawaban4) / 4) As TotalB,
+						CEILING(SUM(jawaban3) / 3) As TotalC,
+						CEILING(SUM(jawaban2) / 2) As TotalD,
+						CEILING(SUM(jawabanE) / 1) As TotalE,
+						SUM( jawaban5 div 5 + jawaban4 div 4 + jawaban3 div 3 + jawaban2 div 2 + jawabanE div 1) As jumlahtotal
   				 					FROM tanswer where categoryId = 1");
 
 			$noo = 1;
@@ -455,7 +456,7 @@ function TINV($probability, $degrees)
 					<font size=2 face=tahoma>Puas</font>
 				</th>
 				<th width="18%">
-					<font size=2 face=tahoma>Cukup Puas</font>
+					<font size=2 face=tahoma>Netral</font>
 				</th>
 				<th width="18%">
 					<font size=2 face=tahoma>Kurang Puas</font>
@@ -465,12 +466,12 @@ function TINV($probability, $degrees)
 				</th>
 			</tr>
 			<?php
-			$sql1 = mysqli_query($db, "SELECT SUM(jawaban5) As TotalA,
-  									SUM(jawaban4) As TotalB,
-  									SUM(jawaban3) As TotalC,
-  									SUM(jawaban2) As TotalD,
-  									SUM(jawabanE) As TotalE,
-  									SUM(jawaban5+jawaban4+jawaban3+jawaban2+jawabanE) As jumlahtotal
+			$sql1 = mysqli_query($db, "SELECT CEILING(SUM(jawaban5) / 5) As TotalA,
+			CEILING(SUM(jawaban4) / 4) As TotalB,
+			CEILING(SUM(jawaban3) / 3) As TotalC,
+			CEILING(SUM(jawaban2) / 2) As TotalD,
+			CEILING(SUM(jawabanE) / 1) As TotalE,
+			SUM( jawaban5 div 5 + jawaban4 div 4 + jawaban3 div 3 + jawaban2 div 2 + jawabanE div 1) As jumlahtotal
   				 					FROM tanswer where categoryId = 2");
 
 			$noo1 = 1;
@@ -529,7 +530,7 @@ function TINV($probability, $degrees)
 							value: "<?php echo "$b" ?>"
 						},
 						{
-							label: "Cukup Penting",
+							label: "Netral",
 							value: "<?php echo "$c" ?>"
 						},
 						{
@@ -569,7 +570,7 @@ function TINV($probability, $degrees)
 							value: "<?php echo "$b1" ?>"
 						},
 						{
-							label: "Cukup Puas",
+							label: "Netral",
 							value: "<?php echo "$c1" ?>"
 						},
 						{
@@ -629,7 +630,7 @@ function TINV($probability, $degrees)
 								<font size=2 face=tahoma>Puas</font>
 							</th>
 							<th>
-								<font size=2 face=tahoma>Cukup Puas</font>
+								<font size=2 face=tahoma>Netral</font>
 							</th>
 							<th>
 								<font size=2 face=tahoma>Kurang Puas</font>
@@ -639,12 +640,12 @@ function TINV($probability, $degrees)
 							</th>
 						</tr>
 						<?php
-						$sql = mysqli_query($db, "SELECT SUM(jawaban5) As TotalA,
-                        SUM(jawaban4) As TotalB,
-                        SUM(jawaban3) As TotalC,
-                        SUM(jawaban2) As TotalD,
-                        SUM(jawabanE) As TotalE,
-                        SUM(jawaban5+jawaban4+jawaban3+jawaban2+jawabanE) As jumlah FROM tanswer where variabelId='$data2[variabelId]' ");
+						$sql = mysqli_query($db, "SELECT CEILING(SUM(jawaban5) / 5) As TotalA,
+						CEILING(SUM(jawaban4) / 4) As TotalB,
+						CEILING(SUM(jawaban3) / 3) As TotalC,
+						CEILING(SUM(jawaban2) / 2) As TotalD,
+						CEILING(SUM(jawabanE) / 1) As TotalE,
+						SUM( jawaban5 div 5 + jawaban4 div 4 + jawaban3 div 3 + jawaban2 div 2 + jawabanE div 1) As jumlah FROM tanswer where variabelId='$data2[variabelId]' ");
 						$nom = mysqli_num_rows(mysqli_query($db, "SELECT * FROM tanswer where variabelId='$data2[variabelId]'"));
 
 						$noo = 1;
