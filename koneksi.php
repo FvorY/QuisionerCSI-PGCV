@@ -2,8 +2,8 @@
 
 $server = "localhost";
 $user = "root";
-$password = "";
-$nama_database = "survey3";
+$password = "root";
+$nama_database = "survey";
 
 $db = mysqli_connect($server, $user, $password, $nama_database);
 

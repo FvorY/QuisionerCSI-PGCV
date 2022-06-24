@@ -271,11 +271,11 @@ function TINV($probability, $degrees)
 					<a href="master.php?module=hasil&sub=all">Grafik Keseluruhan</a>
 				</li>
 			<?php } ?>
-			<?php if ($_GET['sub'] == 'pervariabel') { ?>
+			<!-- <?php if ($_GET['sub'] == 'pervariabel') { ?>
 				<li class="active">
 					<a href="master.php?module=hasil&sub=pervariabel">Grafik Per variabel</a>
 				</li>
-			<?php } ?>
+			<?php } ?> -->
 			<?php if ($_GET['sub'] == 'laporan') { ?>
 				<li class="active">
 					<a href="master.php?module=hasil&sub=laporan">Responden</a>
@@ -321,9 +321,9 @@ function TINV($probability, $degrees)
 		<li class="<?php if ($_GET['sub'] == 'all') {
 						echo 'active';
 					} ?>"><a href="?module=hasil&sub=all">Grafik Keseluruhan</a></li>
-		<li class="<?php if ($_GET['sub'] == 'pervariabel') {
+		<!-- <li class="<?php if ($_GET['sub'] == 'pervariabel') {
 						echo 'active';
-					} ?>"><a href="?module=hasil&sub=pervariabel"> Grafik Per variabel</a></li>
+					} ?>"><a href="?module=hasil&sub=pervariabel"> Grafik Per variabel</a></li> -->
 		<li class="<?php if ($_GET['sub'] == 'laporan') {
 						echo 'active';
 					} ?>"><a href="?module=hasil&sub=laporan">Responden</a></li>
@@ -906,7 +906,7 @@ function TINV($probability, $degrees)
 						array_push($dy, $data1['jawabanjumlah']);
 					}
 				}
-				$sql = mysqli_query($db, "SELECT * FROM tquestion");
+				$sql = mysqli_query($db, "SELECT * FROM tquestion where categoryId=2");
 				echo "<tr><td></td>";
 				$pearson = array();
 				$ind = 1;
@@ -990,14 +990,14 @@ function TINV($probability, $degrees)
 						array_push($dy, $data1['jawabanjumlah']);
 					}
 				}
-				$sql = mysqli_query($db, "SELECT * FROM tquestion");
+				$sql = mysqli_query($db, "SELECT * FROM tquestion where categoryId=1");
 				echo "<tr><td></td>";
 				$pearson = array();
 				$ind = 1;
-				$dx = array();
+				
 				while ($data = mysqli_fetch_array($sql)) {
 					$sql1 = mysqli_query($db, "SELECT * FROM tanswer where descriptionId='" . $data['questionId'] . "' AND categoryId=1 order by respondenId");
-
+					$dx = array();
 					echo "<td style='font-size:8px'>" . $ind . "</td>";
 					while ($data1 = mysqli_fetch_array($sql1)) {
 						array_push($dx, $data1['jawaban']);
@@ -1073,7 +1073,7 @@ function TINV($probability, $degrees)
 					}
 				}
 
-				$sql = mysqli_query($db, "SELECT * FROM tquestion");
+				$sql = mysqli_query($db, "SELECT * FROM tquestion where categoryId=2");
 				echo "<tr><td></td>";
 				$varx = array();
 				$dx = array();
@@ -1140,7 +1140,7 @@ function TINV($probability, $degrees)
 					}
 				}
 
-				$sql = mysqli_query($db, "SELECT * FROM tquestion");
+				$sql = mysqli_query($db, "SELECT * FROM tquestion where categoryId=1");
 				echo "<tr><td></td>";
 				$varx = array();
 				$dx = array();
